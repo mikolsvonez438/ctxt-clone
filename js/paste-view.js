@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     // Fetch paste
-    const { data: paste, error } = await supabase
+    const { data: paste, error } = await db
       .from("pastes")
       .select("*")
       .eq("short_id", shortId)
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Check expiration
     if (paste.expires_at && new Date(paste.expires_at) < new Date()) {
-      await supabase.from("pastes").delete().eq("id", paste.id);
+      await db.from("pastes").delete().eq("id", paste.id);
       showError("This paste has expired");
       return;
     }
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     currentPaste = paste;
 
     // Update view count
-    await supabase
+    await db
       .from("pastes")
       .update({ view_count: (paste.view_count || 0) + 1 })
       .eq("id", paste.id);
@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     pasteDate.textContent = formatDate(paste.created_at);
     viewCount.textContent = (paste.view_count || 0) + 1;
     langBadge.textContent = paste.language;
-    shareUrl.textContent = `${window.location.origin}/paste.html?id=${shortId}`;
+    shareUrl.textContent = window.location.origin + "/paste.html?id=" + shortId;
 
     if (paste.expires_at) {
-      expiresBadge.textContent = `Expires ${formatDate(paste.expires_at)}`;
+      expiresBadge.textContent = "Expires " + formatDate(paste.expires_at);
     }
 
     renderContent();
@@ -71,11 +71,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     const content = escapeHtml(currentPaste.content);
 
     if (isRaw) {
-      pasteContent.innerHTML = `<pre class="raw">${content}</pre>`;
+      pasteContent.innerHTML = '<pre class="raw">' + content + "</pre>";
     } else if (currentPaste.language === "text") {
-      pasteContent.innerHTML = `<pre>${content}</pre>`;
+      pasteContent.innerHTML = "<pre>" + content + "</pre>";
     } else {
-      pasteContent.innerHTML = `<pre><code class="language-${currentPaste.language}">${content}</code></pre>`;
+      pasteContent.innerHTML =
+        '<pre><code class="language-' +
+        currentPaste.language +
+        '">' +
+        content +
+        "</code></pre>";
       Prism.highlightAll();
     }
   }
@@ -107,19 +112,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!currentPaste) return;
     await navigator.clipboard.writeText(currentPaste.content);
     copyBtn.textContent = "Copied!";
-    setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
-  });
-
-  deleteBtn.addEventListener("click", async function () {
-    if (!currentPaste || !confirm("Delete this paste?")) return;
-
-    const { error } = await supabase
-      .from("pastes")
-      .delete()
-      .eq("id", currentPaste.id);
-
-    if (!error) {
-      window.location.href = "index.html";
-    }
+    setTimeout(function () {
+      copyBtn.textContent = "Copy";
+    }, 2000);
   });
 });
