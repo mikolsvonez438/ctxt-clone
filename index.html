@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ctxt - Simple Text Sharing</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="bg-dark text-light">
+    <nav class="navbar navbar-dark bg-dark border-bottom border-secondary">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html"
+          >ctxt<span class="text-secondary">.io</span></a
+        >
+        <div class="navbar-nav flex-row gap-3">
+          <a class="nav-link" href="index.html">New</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-4">
+            <h1 class="fw-bold">Share Text Instantly</h1>
+            <p class="text-secondary">
+              Paste your code or text, get a short link. No account needed.
+            </p>
+          </div>
+
+          <div class="card bg-dark border-secondary">
+            <div class="card-header border-secondary">
+              <h5 class="mb-0">
+                <i class="bi bi-file-text me-2"></i>New Paste
+              </h5>
+            </div>
+            <div class="card-body">
+              <form id="pasteForm">
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control bg-black text-light border-secondary"
+                    id="title"
+                    placeholder="Title (optional)"
+                  />
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6 mb-2 mb-md-0">
+                    <label class="form-label text-secondary small"
+                      >Language</label
+                    >
+                    <select
+                      class="form-select bg-black text-light border-secondary"
+                      id="language"
+                    >
+                      <option value="text">Plain Text</option>
+                      <option value="javascript">JavaScript</option>
+                      <option value="typescript">TypeScript</option>
+                      <option value="python">Python</option>
+                      <option value="java">Java</option>
+                      <option value="cpp">C++</option>
+                      <option value="c">C</option>
+                      <option value="go">Go</option>
+                      <option value="rust">Rust</option>
+                      <option value="html">HTML</option>
+                      <option value="css">CSS</option>
+                      <option value="sql">SQL</option>
+                      <option value="bash">Bash/Shell</option>
+                      <option value="json">JSON</option>
+                      <option value="yaml">YAML</option>
+                      <option value="markdown">Markdown</option>
+                      <option value="dockerfile">Dockerfile</option>
+                      <option value="regex">Regex</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label text-secondary small"
+                      >Expires In</label
+                    >
+                    <select
+                      class="form-select bg-black text-light border-secondary"
+                      id="expiration"
+                    >
+                      <option value="never">Never</option>
+                      <option value="1h">1 Hour</option>
+                      <option value="1d">1 Day</option>
+                      <option value="1w">1 Week</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <textarea
+                    class="form-control bg-black text-light border-secondary font-monospace"
+                    id="content"
+                    rows="12"
+                    placeholder="Paste your text or code here..."
+                    required
+                  ></textarea>
+                  <div class="d-flex justify-content-between mt-1">
+                    <small class="text-secondary" id="charCount"
+                      >0 characters</small
+                    >
+                    <small class="text-danger" id="errorMsg"></small>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-light w-100 fw-bold"
+                  id="submitBtn"
+                >
+                  <span
+                    class="spinner-border spinner-border-sm d-none"
+                    id="spinner"
+                  ></span>
+                  <span id="btnText">Create Paste</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="row mt-4 text-center">
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary">
+                <div class="h4 fw-bold">Easy</div>
+                <small class="text-secondary">Type-friendly URLs</small>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary">
+                <div class="h4 fw-bold">Fast</div>
+                <small class="text-secondary">No signup required</small>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary">
+                <div class="h4 fw-bold">Clean</div>
+                <small class="text-secondary">Syntax highlighting</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer
+      class="border-top border-secondary mt-5 py-4 text-center text-secondary"
+    >
+      <small>Minimalist text sharing • Built with HTML, JS & Bootstrap</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nanoid/5.0.7/index.browser.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
